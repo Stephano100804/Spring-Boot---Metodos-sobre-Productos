@@ -63,7 +63,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public List<Producto> listarProductosPorEstado(EstadoProducto estadoProducto) {
-        return productoRepository.findByEstadoProducto(estadoProducto.name());
+        return productoRepository.findByEstadoProducto(estadoProducto);
     }
     
 }

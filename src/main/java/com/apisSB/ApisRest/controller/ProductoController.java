@@ -89,14 +89,9 @@ public class ProductoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
         }
     }
-    @GetMapping("/listar-por-estado/{estadoProducto}")
-    public ResponseEntity<?> listarProductosPorEstado(@PathVariable EstadoProducto estadoProducto) {
-        try{
-            List<Producto> productos = productoService.listarProductosPorEstado(estadoProducto);
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<Producto>> listarProductosPorEstado(@PathVariable EstadoProducto estado) {
+        List<Producto> productos = productoService.listarProductosPorEstado(estado);
             return ResponseEntity.ok(productos);
-        }
-        catch(Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Estado de producto no encontrado");
-        }
     }
 }

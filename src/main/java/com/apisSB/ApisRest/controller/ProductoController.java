@@ -49,7 +49,7 @@ public class ProductoController {
         return producto.isPresent() ? ResponseEntity.ok(producto.get()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar/{idProducto}")
     public ResponseEntity<?> actualizarProducto(@PathVariable Long idProducto, @RequestBody Producto producto) {
         try{
             Producto productoActualizado = new Producto();
@@ -68,7 +68,7 @@ public class ProductoController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Producto no encontrado");
         }
     }
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar/{idProducto}")
     public ResponseEntity<?> eliminarProducto(@PathVariable Long idProducto) {
         try{
             productoService.eliminarProducto(idProducto);
@@ -79,7 +79,7 @@ public class ProductoController {
         }
     }
 
-    @PutMapping("/cambiar-estado/{id}")
+    @PutMapping("/cambiar-estado/{idProducto}")
     public ResponseEntity<?> cambiarEstadoProducto(@PathVariable Long idProducto, @RequestBody String estadoProducto) {
         try{
             Producto productoActualizado = productoService.cambiarEstadoProducto(idProducto, estadoProducto);

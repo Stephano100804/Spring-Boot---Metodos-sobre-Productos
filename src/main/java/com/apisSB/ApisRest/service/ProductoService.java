@@ -10,7 +10,7 @@ import com.apisSB.ApisRest.entity.Producto;
 
 @Service
 public interface ProductoService {
-    Producto registrarProducto(Producto producto);
+    Producto registrarProducto(Long categoriaId, Producto producto);
     List<Producto> listarProductos();
     Optional<Producto> buscarPorNombre(String nombre);
     Optional<Producto> buscarPorId(Long idProducto);

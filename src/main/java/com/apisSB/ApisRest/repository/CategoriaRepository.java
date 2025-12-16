@@ -9,6 +9,7 @@ import com.apisSB.ApisRest.entity.Categoria;
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
     
     Optional<Categoria> findByNombreCategoria(String nombreCategoria);
+    Optional<Categoria> findById(Long categoriaId);
     boolean existsByNombreCategoria(String nombreCategoria);
 
 }

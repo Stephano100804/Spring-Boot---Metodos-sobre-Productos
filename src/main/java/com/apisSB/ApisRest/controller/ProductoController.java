@@ -24,9 +24,23 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
     
-    @PostMapping("/registrar")
-    public ResponseEntity<?> registrarProducto(@RequestBody Producto producto) {
-        Producto nuevoProducto = productoService.registrarProducto(producto);
+    @PostMapping("/registrar/{categorioaId}")
+    public ResponseEntity<?> registrarProducto(
+        @PathVariable Long categorioaId,
+        @RequestParam("nombreProducto") String nombreProducto,
+        @RequestParam("descripcion") String descripcion,
+        @RequestParam("precio") Double precio,
+        @RequestParam("cantidad") int cantidad,
+        @RequestParam("estadoProducto") EstadoProducto estadoProducto
+    ) {
+        Producto producto = new Producto();
+        producto.setNombreProducto(nombreProducto);
+        producto.setDescripcion(descripcion);   
+        producto.setPrecio(precio);
+        producto.setCantidad(cantidad);
+        producto.setEstadoProducto(estadoProducto);
+
+        Producto nuevoProducto = productoService.registrarProducto(categorioaId, producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoProducto);
     }
     
@@ -50,17 +64,25 @@ public class ProductoController {
     }
 
     @PutMapping("/actualizar/{idProducto}")
-    public ResponseEntity<?> actualizarProducto(@PathVariable Long idProducto, @RequestBody Producto producto) {
+    public ResponseEntity<?> actualizarProducto(
+        @PathVariable Long idProducto,
+        @RequestParam("nombreProducto") String nombreProducto,
+        @RequestParam("descripcion") String descripcion,
+        @RequestParam("precio") Double precio,
+        @RequestParam("cantidad") int cantidad,
+        @RequestParam("estadoProducto") EstadoProducto estadoProducto
+
+    ) {
         try{
-            Producto productoActualizado = new Producto();
-            productoActualizado.setIdProducto(idProducto);
-            productoActualizado.setCantidad(producto.getCantidad());
-            productoActualizado.setDescripcion(producto.getDescripcion());
-            productoActualizado.setEstadoProducto(producto.getEstadoProducto());
-            productoActualizado.setNombreProducto(producto.getNombreProducto());
-            productoActualizado.setPrecio(producto.getPrecio());
+            Producto producto = new Producto();
+            producto.setIdProducto(idProducto);
+            producto.setCantidad(cantidad);
+            producto.setDescripcion(nombreProducto);
+            producto.setEstadoProducto(estadoProducto);
+            producto.setNombreProducto(nombreProducto);
+            producto.setPrecio(precio);
             
-            Producto actualizado = productoService.actualizarProducto(idProducto, productoActualizado);
+            Producto actualizado = productoService.actualizarProducto(idProducto, producto);
             return ResponseEntity.ok(actualizado);
         }
         

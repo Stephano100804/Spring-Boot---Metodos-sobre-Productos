@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.apisSB.ApisRest.entity.Categoria;
 import com.apisSB.ApisRest.entity.EstadoProducto;
 import com.apisSB.ApisRest.entity.Producto;
+import com.apisSB.ApisRest.repository.CategoriaRepository;
 import com.apisSB.ApisRest.repository.ProductoRepository;
 @Service
 public class ProductoServiceImpl implements ProductoService {
@@ -15,9 +17,14 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriarepository;
 
-    @Override
-    public Producto registrarProducto(Producto producto) {
+     @Override
+    public Producto registrarProducto(Long categoriaId, Producto producto) {
+        Categoria categoria = categoriarepository.findById(categoriaId).orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+
+        producto.setCategoria(categoria);
         return productoRepository.save(producto);
     }
 
@@ -45,6 +52,11 @@ public class ProductoServiceImpl implements ProductoService {
         proExis.setCantidad(producto.getCantidad());
         proExis.setEstadoProducto(producto.getEstadoProducto());
         
+        if(producto.getCategoria().getIdCategoria() != null) {
+            Categoria categoria = categoriarepository.findById(producto.getCategoria().getIdCategoria()).orElseThrow(() -> new RuntimeException("Categoría no encontrada"));
+            proExis.setCategoria(categoria);
+        }
+
         return productoRepository.save(proExis);
 
     }
@@ -65,5 +77,7 @@ public class ProductoServiceImpl implements ProductoService {
     public List<Producto> listarProductosPorEstado(EstadoProducto estadoProducto) {
         return productoRepository.findByEstadoProducto(estadoProducto);
     }
+
+   
     
 }
